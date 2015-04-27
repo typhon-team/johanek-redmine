@@ -1,14 +1,6 @@
 # Class redmine::config
 class redmine::config {
 
-  require 'apache'
-
-  File {
-    owner => $apache::params::user,
-    group => $apache::params::group,
-    mode  => '0644'
-  }
-
   file { $redmine::webroot:
     ensure => link,
     target => $redmine::install_dir
@@ -54,6 +46,13 @@ class redmine::config {
     }
   } else {
     if $redmine::create_vhost {
+      require 'apache'
+
+      File {
+        owner => $apache::params::user,
+        group => $apache::params::group,
+        mode  => '0644'
+      }
       apache::vhost { 'redmine':
         port            => '80',
         docroot         => "${redmine::webroot}/public",

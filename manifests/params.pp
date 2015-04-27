@@ -25,12 +25,23 @@ class redmine::params {
     }
   }
 
-  if $redmine::database_adapter {
-    $real_adapter = $redmine::database_adapter
-  } elsif versioncmp($::rubyversion, '1.9') >= 0 {
-    $real_adapter = 'mysql2'
-  } else {
-    $real_adapter = 'mysql'
+  case $redmine::database_adapter {
+    'mysql', 'mariadb': {
+      $real_adapter = 'mysql'
+    }
+    'mysql2', 'mariadb2': {
+      $real_adapter = 'mysql'
+    }
+    'postgresql': {
+      $real_adapter = 'postgresql'
+    }
+    default : {
+      if versioncmp($::rubyversion, '1.9') >= 0 {
+        $real_adapter = 'mysql2'
+      } else {
+        $real_adapter = 'mysql'
+      }
+    }
   }
 
   if $redmine::version {
