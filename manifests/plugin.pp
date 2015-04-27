@@ -20,11 +20,17 @@ define redmine::plugin (
   $version  = undef,
   $provider = 'git',
 ) {
+  if $redmine::create_vhost {
+    $notify_httpd = Class['apache::service']
+  } else {
+    $notify_httpd = undef
+  }
+
 
   $install_dir = "${redmine::install_dir}/plugins/${name}"
   if $ensure == absent {
     exec { "rake redmine:plugins:migrate NAME=${name} VERSION=0":
-      notify      => Class['apache::service'],
+      notify      => $notify_httpd,
       path        => ['/bin','/usr/bin', '/usr/local/bin'],
       environment => ['HOME=/root','RAILS_ENV=production','REDMINE_LANG=en'],
       provider    => 'shell',
