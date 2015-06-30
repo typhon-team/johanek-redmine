@@ -1,11 +1,15 @@
 default:
-  delivery_method: :smtp
-  smtp_settings:
+  email_delivery:
+    delivery_method: :smtp
+    smtp_settings:
+<% if scope.lookupvar('redmine::smtp_enable_starttls_auto') == true -%>
+      enable_starttls_auto: true
+<% end -%>
       address: <%= scope.lookupvar('redmine::smtp_server') %>
       port: <%= scope.lookupvar('redmine::smtp_port') %>
       domain: <%= scope.lookupvar('redmine::smtp_domain') %>
 <% if scope.lookupvar('redmine::smtp_authentication') == true -%>
-      authentication: :login
+      authentication: <%= scope.lookupvar('redmine::smtp_authentication_mode') %>
       user_name: <%= scope.lookupvar('redmine::smtp_username') %>
       password: <%= scope.lookupvar('redmine::smtp_password') %>
 <% end -%>

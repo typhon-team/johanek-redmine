@@ -94,6 +94,14 @@
 #   SMTP password for authentication.
 #   Default: none
 #
+# [*smtp_authentication_mode*]
+#   ':plain', ':login', ':cram_md5'
+#   Default: ':plain'
+#
+# [*smtp_enable_starttls_auto*]
+#   Enable or not starttls
+#   Default: false
+#
 # [*webroot*]
 #   Directory in which redmine web files will be installed.
 #   Default: 'DOCROOT/redmine'
@@ -127,29 +135,31 @@
 #   When disabling this option the vhost config is your responsibility.
 #
 class redmine (
-  $version              = undef,
-  $download_url         = 'https://github.com/redmine/redmine',
-  $database_server      = 'localhost',
-  $database_user        = 'redmine',
-  $database_password    = 'redmine',
-  $production_database  = 'redmine',
-  $development_database = 'redmine_development',
-  $database_adapter     = undef,
-  $smtp_server          = 'localhost',
-  $smtp_domain          = $::domain,
-  $smtp_port            = 25,
-  $smtp_authentication  = false,
-  $smtp_username        = '',
-  $smtp_password        = '',
-  $vhost_aliases        = 'redmine',
-  $vhost_servername     = 'redmine',
-  $webroot              = "${apache::docroot}/redmine",
-  $install_dir          = '/usr/src/redmine',
-  $provider             = 'git',
-  $override_options     = {},
-  $plugins              = {},
-  $www_subdir           = undef,
-  $create_vhost         = true,
+  $version                   = undef,
+  $download_url              = 'https://github.com/redmine/redmine',
+  $database_server           = 'localhost',
+  $database_user             = 'redmine',
+  $database_password         = 'redmine',
+  $production_database       = 'redmine',
+  $development_database      = 'redmine_development',
+  $database_adapter          = undef,
+  $smtp_server               = 'localhost',
+  $smtp_domain               = $::domain,
+  $smtp_port                 = 25,
+  $smtp_authentication       = false,
+  $smtp_username             = '',
+  $smtp_password             = '',
+  $smtp_authentication_mode  = ':plain',
+  $smtp_enable_starttls_auto = false,
+  $vhost_aliases             = 'redmine',
+  $vhost_servername          = 'redmine',
+  $webroot                   = "${apache::docroot}/redmine",
+  $install_dir               = '/usr/src/redmine',
+  $provider                  = 'git',
+  $override_options          = {},
+  $plugins                   = {},
+  $www_subdir                = undef,
+  $create_vhost              = true,
 ) {
   class { 'redmine::params': } ->
   class { 'redmine::download': } ->
