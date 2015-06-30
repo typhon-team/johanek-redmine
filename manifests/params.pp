@@ -30,7 +30,7 @@ class redmine::params {
       $real_adapter = 'mysql'
     }
     'mysql2', 'mariadb2': {
-      $real_adapter = 'mysql'
+      $real_adapter = 'mysql2'
     }
     'postgresql': {
       $real_adapter = 'postgresql'
