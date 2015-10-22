@@ -1,23 +1,23 @@
 default:
   email_delivery:
-    delivery_method: :<%= scope.lookupvar('redmine::delivery_method') %>
-<% if scope.lookupvar('redmine::delivery_method') == 'smtp' -%>
+    delivery_method: :<%= scope.lookupvar('redmine::delivery_method') -%>
+<%- if scope.lookupvar('redmine::delivery_method') == 'smtp' -%>
     smtp_settings:
-  <% if scope.lookupvar('redmine::smtp_enable_starttls_auto') == true -%>
+  <%- if scope.lookupvar('redmine::smtp_enable_starttls_auto') == true -%>
       enable_starttls_auto: true
-  <% end -%>
+  <%- end -%>
       address: <%= scope.lookupvar('redmine::smtp_server') %>
       port: <%= scope.lookupvar('redmine::smtp_port') %>
       domain: <%= scope.lookupvar('redmine::smtp_domain') %>
-  <% if scope.lookupvar('redmine::smtp_authentication') == true -%>
+  <%- if scope.lookupvar('redmine::smtp_authentication') == true -%>
       authentication: <%= scope.lookupvar('redmine::smtp_authentication_mode') %>
       user_name: <%= scope.lookupvar('redmine::smtp_username') %>
       password: <%= scope.lookupvar('redmine::smtp_password') %>
-  <% end -%>
-<% else -%>
+  <%- end -%>
+<%- else -%>
     sendmail_settings:
       arguments: "-i" 
-<% end -%>
+<%- end -%>
 
 <% scope.lookupvar('redmine::override_options').keys.sort.each do |key| -%>
   <%= key %>: <%= scope.lookupvar('redmine::override_options')[key] %>
