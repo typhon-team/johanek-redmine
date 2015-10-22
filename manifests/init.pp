@@ -70,6 +70,10 @@
 #   Can be either 'mysql' or 'mariadb' for ruby 1.8, 'mysql2' or 'mariadb2' for ruby 1.9 or 'postgresql'.
 #   Default: undef (autodetects the correct mysql adapter)
 #
+# [*delivery_method*]
+#   Delivery method: 'smtp' or 'sendmail'
+#   Default: 'sendmail'
+#
 # [*smtp_server*]
 #   SMTP server to use.
 #   Default: 'localhost'
@@ -143,6 +147,7 @@ class redmine (
   $production_database       = 'redmine',
   $development_database      = 'redmine_development',
   $database_adapter          = undef,
+  $delivery_method           = 'sendmail',
   $smtp_server               = 'localhost',
   $smtp_domain               = $::domain,
   $smtp_port                 = 25,
