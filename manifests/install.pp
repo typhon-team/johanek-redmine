@@ -27,7 +27,7 @@ class redmine::install {
     default:    { $packages = concat($generic_packages, $redhat_packages) }
   }
 
-  ensure_packages($packages, {'ensure' => 'installed'})
+  ensure_packages($packages, {'ensure' => 'present'})
 
   case $redmine::database_adapter {
     'postgresql' : {
