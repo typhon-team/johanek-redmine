@@ -14,7 +14,7 @@ class redmine::install {
       $debian_packages = ['libmysql++-dev', 'libmagickcore-dev', 'libmagickwand-dev', 'ruby-dev', 'imagemagick', 'libmysqlclient-dev']
     }
     'mariadb', 'mariadb2' : {
-      $debian_packages = ['libmysql++-dev', 'libmagickcore-dev', 'libmagickwand-dev', 'ruby-dev', 'imagemagick', 'libmariadbclient-dev']
+      $debian_packages = ['libmagickcore-dev', 'libmagickwand-dev', 'ruby-dev', 'imagemagick', 'libmariadbclient-dev']
     }
     default: {
       $debian_packages = ['libmysql++-dev', 'libmagickcore-dev', 'libmagickwand-dev', 'ruby-dev', 'imagemagick', 'libmysqlclient-dev', 'libpq-dev']
