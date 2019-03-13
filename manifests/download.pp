@@ -1,11 +1,11 @@
 # Class redmine::download
-class redmine::download {
+class redmine::download { #lint:ignore:autoloader_layout
 
   # Install redmine from source
 
   Exec {
     cwd  => '/usr/src',
-    path => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/', '/usr/local/bin/' ]
+    path => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/', '/usr/local/bin/' ],
   }
 
   if $redmine::provider != 'wget' {
@@ -15,7 +15,9 @@ class redmine::download {
       source   => $redmine::download_url,
       provider => $redmine::provider,
       path     => $redmine::install_dir,
-      require  => Package[$redmine::params::provider_package]
+      owner    => $redmine::vcsrepo_owner,
+      group    => $redmine::vcsrepo_group,
+      require  => Package[$redmine::params::provider_package],
     }
   }
   else {
@@ -26,8 +28,8 @@ class redmine::download {
       command => "wget -O redmine.tar.gz ${redmine::download_url}",
       creates => '/usr/src/redmine.tar.gz',
       require => Package['wget'],
-    } ->
-    exec { 'extract_redmine':
+    }
+    -> exec { 'extract_redmine':
       command => "mkdir -p ${redmine::install_dir} && tar xvzf redmine.tar.gz --strip-components=1 -C ${redmine::install_dir}",
       creates => $redmine::install_dir,
       require => Package['tar'],

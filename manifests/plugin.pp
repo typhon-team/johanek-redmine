@@ -14,7 +14,7 @@
 #[*provider*]
 #  The vcs provider. Default: git
 #
-define redmine::plugin (
+define redmine::plugin ( #lint:ignore:autoloader_layout
   $ensure   = present,
   $source   = undef,
   $version  = undef,
@@ -68,7 +68,9 @@ define redmine::plugin (
     source   => $source,
     provider => $provider,
     notify   => $notify,
+    owner    => $redmine::vcsrepo_owner,
+    group    => $redmine::vcsrepo_group,
     require  => [ Package[$provider_package]
-                , Exec['bundle_redmine'] ]
+                , Exec['bundle_redmine'] ],
   }
 }

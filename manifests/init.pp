@@ -138,7 +138,13 @@
 #   True by default.
 #   When disabling this option the vhost config is your responsibility.
 #
-class redmine (
+# [*vcsrepo_owner*]
+#   unix user that will own files fetched by vcsrepo. Default to undef
+#
+# [*vcsrepo_group*]
+#   unix group that will own files fetched by vcsrepo. Default to undef
+#
+class redmine ( #lint:ignore:autoloader_layout
   $version                   = undef,
   $download_url              = 'https://github.com/redmine/redmine',
   $database_server           = 'localhost',
@@ -165,11 +171,13 @@ class redmine (
   $plugins                   = {},
   $www_subdir                = undef,
   $create_vhost              = true,
-) {
-  class { 'redmine::params': } ->
-  class { 'redmine::download': } ->
-  class { 'redmine::config': } ->
-  class { 'redmine::install': } ->
-  class { 'redmine::database': } ->
-  class { 'redmine::rake': }
+  $vcsrepo_owner             = undef,
+  $vcsrepo_group             = undef,
+){
+  class { '::redmine::params': }
+  -> class { '::redmine::download': }
+  -> class { '::redmine::config': }
+  -> class { '::redmine::install': }
+  -> class { '::redmine::database': }
+  -> class { '::redmine::rake': }
 }
